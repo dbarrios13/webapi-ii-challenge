@@ -1,6 +1,5 @@
 const express = require('express')
 
-const commentsRouter = require('../data/commentsRouter')
 const postRouter = require('../data/postRouter')
 
 const server = express()
@@ -12,6 +11,5 @@ server.get('/', (req, res) => {
 })
 
 server.use('/posts', postRouter)
-server.use('/posts', commentsRouter)
 
 module.exports = server
