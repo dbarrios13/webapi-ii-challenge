@@ -98,7 +98,7 @@ router.put('/:id', async(req, res) => {
 router.get('/:id/comments', async(req, res) => {
     try {
         const comment = await db.findPostComments(req.params.id)
-        if(comment) {
+        if(comment.length > 0) {
             res.status(200).json(comment)
         } else {
             res.status(404).json({
@@ -112,12 +112,12 @@ router.get('/:id/comments', async(req, res) => {
     }
 })
 
-router.post('/:id/comments', async(req, res) => {
+router.post('/:id/comments', async (req, res) => {
     try {
         const comment = await db.insertComment(req.body)
-        if(req.params.id) {
+        if(comment.id) {
             if(comment.text) {
-                res.status(201).json({comment})
+                res.status(201).json(comment)
             } else {
                 res.status(400).json({
                     errorMessage: "Please provide text for the comment."
@@ -130,8 +130,7 @@ router.post('/:id/comments', async(req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            error: "There was an error while saving the comment to the database",
-            id: req.params
+            error: "There was an error while saving the comment to the database"
         })
     }
 })
